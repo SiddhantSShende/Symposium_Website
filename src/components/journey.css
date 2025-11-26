@@ -1,0 +1,232 @@
+:root {
+  /* softer, very subtle dot color for dark backgrounds */
+  --journey-grid-dot: rgba(255,255,255,0.04);
+}
+
+/* Generic dotted background helper for dark sections (very faint) */
+.dots-fade-bg {
+  position: absolute;
+  inset: 0;
+  /* slightly stronger so dots are visible but still soft */
+  opacity: .25;
+  pointer-events: none;
+  /* dots a little bigger for more presence on black backgrounds */
+  background-image: radial-gradient(circle at 1px 1px, var(--journey-grid-dot) 1.2px, transparent 0);
+  background-size: 30px 30px;
+  z-index: 0;
+}
+
+/* Sparkling / glowing heading style for services */
+.services-glow-heading {
+  color: #ffffff;
+  text-shadow:
+    0 0 10px rgba(255,255,255,0.4),
+    0 0 20px rgba(255,255,255,0.25),
+    0 0 35px rgba(255,255,255,0.18);
+}
+
+/* Simple image card on the right side of services */
+.services-image-card {
+  border-radius: 24px;
+  overflow: hidden;
+  box-shadow: 0 30px 80px rgba(0,0,0,0.6);
+}
+
+.services-image-card img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* Sticky wrapper */
+.journey-sticky {
+  position: relative;
+  width: 100%;
+  height: 100svh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 2rem 1.5rem;
+}
+
+/* Header */
+.journey-sticky-header {
+  position: absolute;
+  top: 20%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+.journey-sticky-header h1 {
+  font-size: clamp(1.75rem, 4.5vw, 3.25rem);
+  font-weight: 500;
+  line-height: 1.1;
+  text-align: center;
+  will-change: transform, opacity;
+  transform: translateY(40px);
+  opacity: 0;
+}
+
+/* Sparkle/shimmer effect for the heading */
+.journey-sparkle-text {
+  background: linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 0.6) 0%,
+    rgba(255, 255, 255, 1) 25%,
+    rgba(255, 255, 255, 1) 50%,
+    rgba(255, 255, 255, 0.6) 100%
+  );
+  background-size: 200% 100%;
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: sparkle 3s ease-in-out infinite;
+}
+
+@keyframes sparkle {
+  0%, 100% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+}
+
+/* Card container */
+.journey-card-container {
+  position: relative;
+  width: 75%;
+  display: flex;
+  gap: 0;
+  perspective: 1000px;
+  transform: translateY(40px);
+  will-change: width;
+}
+
+/* Card base */
+.journey-card {
+  position: relative;
+  flex: 1;
+  min-width: 0;
+  aspect-ratio: 5/7;
+  transform-style: preserve-3d;
+  border-radius: 10 !important; /* seamless initially, !important to override IDs */
+  overflow: hidden;
+  box-shadow: 0 20px 60px rgba(0,0,0,.45);
+}
+
+/* These will be overridden by GSAP animation, but fallback for mobile */
+@media (max-width: 1000px) {
+  #card-1 { border-radius: 20px !important; }
+  #card-2 { border-radius: 20px !important; }
+  #card-3 { border-radius: 20px !important; }
+}
+
+.journey-card-front,
+.journey-card-back {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  overflow: hidden;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+}
+
+/* FRONT (image) */
+.journey-card-front {
+  background-size: 300% 100%;
+  background-repeat: no-repeat;
+  transform: rotateY(0deg); /* start visible */
+}
+.journey-front-left { background-position: 0% 50%; }
+.journey-front-center { background-position: 50% 50%; }
+.journey-front-right { background-position: 100% 50%; }
+
+/* BACK (text) */
+.journey-card-back {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: left;
+  border-radius: 10px;
+  padding: clamp(1.25rem, 2.5vw, 2rem);
+  transform: rotateY(-180deg); /* start hidden; will go to 0deg */
+  background: hsl(var(--card, 0 0% 15%));
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.08);
+}
+
+/* Colors for each card */
+#card-1 .journey-card-back {
+  color: #0a0a0a;
+  background: #d5d5d5;
+}
+#card-2 .journey-card-back {
+  color: #ffffff;
+  background: #d82323;
+  left: -10px;
+}
+#card-3 .journey-card-back {
+  color: #eaeaea;
+  background: #141414;
+}
+
+/* Number label */
+.journey-card-back span {
+  position: absolute;
+  top: .85rem;
+  left: .85rem;
+  font-size: .85rem;
+  letter-spacing: 0.02em;
+  opacity: .6;
+}
+
+/* Typography */
+.journey-card-back h3 {
+  font-size: clamp(1.25rem, 2.6vw, 2rem);
+  font-weight: 700;
+  line-height: 1.15;
+  margin-bottom: .5rem;
+}
+.journey-card-back p {
+  font-size: clamp(.8rem, 1.4vw, .95rem);
+  opacity: .85;
+  max-width: 28ch;
+}
+
+/* Mobile layout */
+@media (max-width: 1000px) {
+  .journey-sticky {
+    height: max-content;
+    padding: 4rem 1.5rem;
+    flex-direction: column;
+  }
+  .journey-sticky-header {
+    position: relative;
+    top: 0;
+    left: 0;
+    transform: none;
+    margin-bottom: 2rem;
+  }
+  .journey-sticky-header h1 {
+    opacity: 1;
+    transform: none;
+  }
+  .journey-card-container {
+    width: 100%;
+    flex-direction: column;
+    perspective: none;
+  }
+  .journey-card {
+    width: 100%;
+    max-width: 420px;
+    margin: 0 auto;
+    border-radius: 20px !important;
+    transform: none !important;
+  }
+  .journey-card-back {
+    text-align: center;
+  }
+  .journey-card-back p {
+    margin: 0 auto;
+  }
+}
